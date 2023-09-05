@@ -15,7 +15,8 @@ export class CiCdExampleStack extends cdk.Stack {
 
     const githubUserName = new cdk.CfnParameter(this, "githubUserName", {
         type: "String",
-        description: "Github username for source code repository"
+        description: "Github username for source code repository",
+        default: "cantwait"
     })
 
     const githubRepository = new cdk.CfnParameter(this, "githubRespository", {
@@ -27,7 +28,7 @@ export class CiCdExampleStack extends cdk.Stack {
     const githubPersonalTokenSecretName = new cdk.CfnParameter(this, "githubPersonalTokenSecretName", {
         type: "String",
         description: "The name of the AWS Secrets Manager Secret which holds the GitHub Personal Access Token for this project.",
-        default: "/github/token"
+        default: "/github/token",
     })
     //default: `${this.stackName}`
 
@@ -157,7 +158,7 @@ export class CiCdExampleStack extends cdk.Stack {
             // ]
             commands: [
               'env',
-              'export tag=latest'
+              'export tag=latest:1'
             ]
           },
           build: {
@@ -170,7 +171,7 @@ export class CiCdExampleStack extends cdk.Stack {
           post_build: {
             commands: [
               'echo "in post-build stage"',
-              'cd ..',
+              // 'cd ..',
               "printf '[{\"name\":\"go-rest-api-example\",\"imageUri\":\"%s\"}]' $ecr_repo_uri:$tag > imagedefinitions.json",
               "pwd; ls -al; cat imagedefinitions.json"
             ]
