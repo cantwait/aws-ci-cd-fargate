@@ -171,7 +171,6 @@ export class CiCdExampleStack extends cdk.Stack {
           post_build: {
             commands: [
               'echo "in post-build stage"',
-              // 'cd ..',
               "printf '[{\"name\":\"go-rest-api-example\",\"imageUri\":\"%s\"}]' $ecr_repo_uri:$tag > imagedefinitions.json",
               "pwd; ls -al; cat imagedefinitions.json"
             ]
